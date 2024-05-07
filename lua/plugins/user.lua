@@ -21,6 +21,8 @@ return {
   {
     "goolord/alpha-nvim",
     opts = function(_, opts)
+      table.insert(opts.section.buttons.val, opts.button("L", "  Leetcode", ":Leet"))
+
       -- customize the dashboard header
       opts.section.header.val = {
         " ",
