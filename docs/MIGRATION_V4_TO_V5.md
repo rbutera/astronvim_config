@@ -39,6 +39,7 @@
 - Restored emoji completion using `hrsh7th/cmp-emoji` via `saghen/blink.compat`.
 - Enabled `impersonate_nvim_cmp = true` for compatibility with cmp-style source registration.
 - `lazy-lock.json` updated to include `blink.compat` and `cmp-emoji`
+- Dashboard regression fix: Snacks dashboard keys are now extended (append `L` for Leetcode) rather than replaced, so default AstroNvim splash shortcuts remain visible.
 
 ## Repo decision
 
@@ -59,3 +60,4 @@
 2. `nvim --headless '+Lazy! sync' '+qa'` after v5 config migration (passed).
 3. `nvim --headless '+Lazy! sync' '+qa'` after Blink intent port (passed).
 4. `nvim --headless '+qa'` after Blink intent port (passed).
+5. `nvim --headless '+qa'` after dashboard default-key restoration fix (passed).

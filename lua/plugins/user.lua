@@ -25,29 +25,26 @@ return {
   -- customize dashboard options (AstroNvim v5 uses Snacks instead of alpha)
   {
     "folke/snacks.nvim",
-    opts = {
-      dashboard = {
-        preset = {
-          keys = {
-            { key = "L", action = ":Leet", desc = "Leetcode  " },
-          },
-          header = table.concat({
-            " ",
-            " ",
-            " ",
-            " ",
-            " ██████  ██      ██   ██ ███████",
-            "██       ██      ██   ██ ██    ",
-            "██   ███ ██      ███████ █████ ",
-            "██    ██ ██      ██   ██ ██    ",
-            " ██████  ███████ ██   ██ ██    ",
-            " ",
-            " ",
-            " ",
-          }, "\n"),
-        },
-      },
-    },
+    opts = function(_, opts)
+      opts.dashboard = opts.dashboard or {}
+      opts.dashboard.preset = opts.dashboard.preset or {}
+      opts.dashboard.preset.keys = opts.dashboard.preset.keys or {}
+      table.insert(opts.dashboard.preset.keys, { key = "L", action = ":Leet", desc = "Leetcode  " })
+      opts.dashboard.preset.header = table.concat({
+        " ",
+        " ",
+        " ",
+        " ",
+        " ██████  ██      ██   ██ ███████",
+        "██       ██      ██   ██ ██    ",
+        "██   ███ ██      ███████ █████ ",
+        "██    ██ ██      ██   ██ ██    ",
+        " ██████  ███████ ██   ██ ██    ",
+        " ",
+        " ",
+        " ",
+      }, "\n")
+    end,
   },
 
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
