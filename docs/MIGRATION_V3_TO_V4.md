@@ -4,6 +4,8 @@
 
 - Archived v4 migration guide: https://web.archive.org/web/20250323005224/https://docs.astronvim.com/configuration/v4_migration/
 - Existing v3 migration baseline commit: `0082b8e854072565844493652c90003dce844cda`
+- Historical v3 lineage repo: `rbutera/astronvim_old`
+- Active config lineage repo: `rbutera/astronvim_config`
 
 ## What was already true in this repo
 
@@ -25,3 +27,4 @@ This repo was already on the v4-style structure when this migration work started
 
 - The old v3-style monolithic `init.lua` custom config had already been split previously into v4 modules.
 - This migration pass focused on validating parity and preserving behavior rather than redoing the already-finished v3->v4 structural migration.
+- Repo lineage clarification: `astronvim_old` is an earlier historical branch of your config history; current working and deployed lineage is `astronvim_config`.

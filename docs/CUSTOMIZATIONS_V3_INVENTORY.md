@@ -41,6 +41,10 @@ This inventory was reconstructed from:
 - v3 period started with Copilot + copilot-cmp.
 - later migrated to Supermaven + cmp source in this repo.
 - for v5 migration, Supermaven removed (as requested).
+- completion intent was then ported to Blink in follow-up migration work.
+- Blink source ordering intent: `lsp > snippets > emoji > buffer > path`.
+- Emoji source restored via `cmp-emoji` using `blink.compat`.
+- Blink completion override implemented in `lua/plugins/blink.lua`.
 
 ## WSL compatibility customization
 

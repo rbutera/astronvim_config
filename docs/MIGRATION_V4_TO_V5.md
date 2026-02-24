@@ -31,6 +31,15 @@
   - replaced Alpha-specific fallback call with Snacks dashboard fallback.
   - restored/retained WSL yank-to-clipboard compatibility (`clip.exe`).
 
+## Follow-up migration pass
+
+- Follow-up commit: `a48cb21` (`Port nvim-cmp completion intent to blink.cmp`)
+- Added `lua/plugins/blink.lua` to port previous completion behavior intent from `nvim-cmp` to Blink.
+- Configured source ordering intent: `lsp > snippets > emoji > buffer > path`.
+- Restored emoji completion using `hrsh7th/cmp-emoji` via `saghen/blink.compat`.
+- Enabled `impersonate_nvim_cmp = true` for compatibility with cmp-style source registration.
+- `lazy-lock.json` updated to include `blink.compat` and `cmp-emoji`
+
 ## Repo decision
 
 - No new repository is required.
@@ -41,5 +50,12 @@
 1. Run `:Lazy sync` and restart Neovim.
 2. Run `:checkhealth`.
 3. Verify dashboard key `L` opens Leetcode.
-4. Verify completion behavior with Blink (especially `<Tab>` interaction).
+4. Verify completion behavior with Blink (especially `<Tab>` interaction and source ordering).
 5. Verify WSL clipboard yank behavior (if on WSL).
+
+## Validation runs performed
+
+1. `nvim --headless '+qa'` after v5 config migration (passed).
+2. `nvim --headless '+Lazy! sync' '+qa'` after v5 config migration (passed).
+3. `nvim --headless '+Lazy! sync' '+qa'` after Blink intent port (passed).
+4. `nvim --headless '+qa'` after Blink intent port (passed).
