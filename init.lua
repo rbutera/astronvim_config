@@ -7,18 +7,24 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.clipboard = {
-  name = "wl-clipboard",
-  copy = {
-    ["+"] = "wl-copy",
-    ["*"] = "wl-copy",
-  },
-  paste = {
-    ["+"] = "wl-paste",
-    ["*"] = "wl-paste",
-  },
-  cache_enabled = 0,
-}
+if vim.fn.executable "wl-copy" == 1 and vim.fn.executable "wl-paste" == 1 then
+  vim.g.clipboard = {
+    name = "wl-clipboard",
+    copy = {
+      ["+"] = "wl-copy",
+      ["*"] = "wl-copy",
+    },
+    paste = {
+      ["+"] = "wl-paste",
+      ["*"] = "wl-paste",
+    },
+    cache_enabled = 0,
+  }
+end
+
+-- Over SSH, use OSC52 so yanks can reach the local machine clipboard,
+-- including when running inside terminal multiplexers.
+if vim.env.SSH_CONNECTION or vim.env.SSH_TTY then vim.g.clipboard = "osc52" end
 
 -- validate that lazy is available
 if not pcall(require, "lazy") then
