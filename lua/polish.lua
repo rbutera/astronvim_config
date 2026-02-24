@@ -53,7 +53,10 @@ vim.keymap.set("n", "<leader>q", function() vim.lsp.buf.code_action() end, { des
 local function alpha_on_bye(cmd)
   local bufs = vim.fn.getbufinfo { buflisted = true }
   vim.cmd(cmd)
-  if require("core.utils").is_available "alpha-nvim" and not bufs[2] then require("alpha").start(true) end
+  if not bufs[2] then
+    local ok, snacks = pcall(require, "snacks")
+    if ok then snacks.dashboard() end
+  end
 end
 
 -- vim.keymap.del("n", "<leader>c")
@@ -79,3 +82,10 @@ vim.keymap.set("n", "<C-P>", function()
 end, { desc = "Search files (live grep)" })
 
 vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").find_files() end, { desc = "Search files" })
+
+if vim.fn.has "wsl" == 1 then
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("YankToWindowsClipboard", { clear = true }),
+    callback = function() vim.fn.system("clip.exe", vim.fn.getreg '"') end,
+  })
+end

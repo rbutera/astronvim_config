@@ -16,34 +16,38 @@ return {
   },
   -- == Examples of Overriding Plugins ==
   {
-    "catppuccin",
+    "catppuccin/nvim",
+    name = "catppuccin",
     config = {
       transparent_background = true,
     },
   },
-  -- customize alpha options
+  -- customize dashboard options (AstroNvim v5 uses Snacks instead of alpha)
   {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      table.insert(opts.section.buttons.val, opts.button("L", "  Leetcode", ":Leet"))
-
-      -- customize the dashboard header
-      opts.section.header.val = {
-        " ",
-        " ",
-        " ",
-        " ",
-        " ██████  ██      ██   ██ ███████",
-        "██       ██      ██   ██ ██    ",
-        "██   ███ ██      ███████ █████ ",
-        "██    ██ ██      ██   ██ ██    ",
-        " ██████  ███████ ██   ██ ██    ",
-        " ",
-        " ",
-        " ",
-      }
-      return opts
-    end,
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          keys = {
+            { key = "L", action = ":Leet", desc = "Leetcode  " },
+          },
+          header = table.concat({
+            " ",
+            " ",
+            " ",
+            " ",
+            " ██████  ██      ██   ██ ███████",
+            "██       ██      ██   ██ ██    ",
+            "██   ███ ██      ███████ █████ ",
+            "██    ██ ██      ██   ██ ██    ",
+            " ██████  ███████ ██   ██ ██    ",
+            " ",
+            " ",
+            " ",
+          }, "\n"),
+        },
+      },
+    },
   },
 
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
@@ -66,13 +70,13 @@ return {
   {
     "folke/todo-comments.nvim",
     lazy = false,
-    requires = "nvim-lua/plenary.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
     config = function() require("todo-comments").setup {} end,
   },
   {
     "folke/trouble.nvim",
     lazy = false,
-    requires = "kyazdani42/nvim-web-devicons",
+    dependencies = "nvim-tree/nvim-web-devicons",
     config = function() require("trouble").setup {} end,
   },
   {
@@ -82,7 +86,7 @@ return {
   {
     "kosayoda/nvim-lightbulb",
     lazy = false,
-    requires = "antoinemadec/FixCursorHold.nvim",
+    dependencies = "antoinemadec/FixCursorHold.nvim",
     config = function() require("nvim-lightbulb").setup { autocmd = { enabled = true } } end,
   },
   {
@@ -95,28 +99,8 @@ return {
     lazy = false,
   },
   {
-    "supermaven-inc/supermaven-nvim",
-    config = function()
-      require("supermaven-nvim").setup {
-        keymaps = {
-          accept_suggestion = "<Tab>",
-          clear_suggestion = "<C-]>",
-          accept_word = "<C-j>",
-        },
-        ignore_filetypes = { cpp = true },
-        -- color = {
-        --   suggestion_color = "#ffffff",
-        --   cterm = 244,
-        -- },
-        log_level = "warn", -- set to "off" to disable logging completely
-        disable_inline_completion = true, -- disables inline completion for use with cmp
-        disable_keymaps = false, -- disables built in keymaps for more manual control
-      }
-    end,
-  },
-  {
     "kevinhwang91/nvim-ufo",
-    requires = "kevinhwang91/promise-async",
+    dependencies = "kevinhwang91/promise-async",
     config = function()
       -- vim.o.foldcolumn = "0"
       -- vim.o.foldnestmax = 3
