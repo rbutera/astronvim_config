@@ -22,9 +22,28 @@ if vim.fn.executable "wl-copy" == 1 and vim.fn.executable "wl-paste" == 1 then
   }
 end
 
--- Over SSH, use OSC52 so yanks can reach the local machine clipboard,
--- including when running inside terminal multiplexers.
-if vim.env.SSH_CONNECTION or vim.env.SSH_TTY then vim.g.clipboard = "osc52" end
+-- Over SSH, use osc52copy script to write directly to the tmux client tty.
+-- nvim's built-in "osc52" writes to stdout which tmux intercepts; the script
+-- bypasses that by writing to #{client_tty} directly, same as tmux-yank does.
+if vim.env.SSH_CONNECTION or vim.env.SSH_TTY then
+  local osc52copy = vim.fn.expand "~/.local/bin/osc52copy"
+  if vim.fn.executable(osc52copy) == 1 then
+    vim.g.clipboard = {
+      name = "osc52copy",
+      copy = {
+        ["+"] = { osc52copy },
+        ["*"] = { osc52copy },
+      },
+      paste = {
+        ["+"] = { "tmux", "save-buffer", "-" },
+        ["*"] = { "tmux", "save-buffer", "-" },
+      },
+      cache_enabled = 0,
+    }
+  else
+    vim.g.clipboard = "osc52"
+  end
+end
 
 -- validate that lazy is available
 if not pcall(require, "lazy") then
