@@ -7,43 +7,9 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-if vim.fn.executable "wl-copy" == 1 and vim.fn.executable "wl-paste" == 1 then
-  vim.g.clipboard = {
-    name = "wl-clipboard",
-    copy = {
-      ["+"] = "wl-copy",
-      ["*"] = "wl-copy",
-    },
-    paste = {
-      ["+"] = "wl-paste",
-      ["*"] = "wl-paste",
-    },
-    cache_enabled = 0,
-  }
-end
-
--- Over SSH, use osc52copy script to write directly to the tmux client tty.
--- nvim's built-in "osc52" writes to stdout which tmux intercepts; the script
--- bypasses that by writing to #{client_tty} directly, same as tmux-yank does.
-if vim.env.SSH_CONNECTION or vim.env.SSH_TTY then
-  local osc52copy = vim.fn.expand "~/.local/bin/osc52copy"
-  if vim.fn.executable(osc52copy) == 1 then
-    vim.g.clipboard = {
-      name = "osc52copy",
-      copy = {
-        ["+"] = { osc52copy },
-        ["*"] = { osc52copy },
-      },
-      paste = {
-        ["+"] = { "tmux", "save-buffer", "-" },
-        ["*"] = { "tmux", "save-buffer", "-" },
-      },
-      cache_enabled = 0,
-    }
-  else
-    vim.g.clipboard = "osc52"
-  end
-end
+-- Use the system clipboard for normal yank/delete/put operations and let
+-- Neovim pick the appropriate provider for the current environment.
+vim.opt.clipboard = "unnamedplus"
 
 -- validate that lazy is available
 if not pcall(require, "lazy") then
