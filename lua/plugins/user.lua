@@ -183,6 +183,11 @@ return {
     end,
   },
   {
+    "chrisgrieser/nvim-puppeteer",
+    lazy = false,
+    dependencies = "nvim-treesitter/nvim-treesitter",
+  },
+  {
     "kawre/leetcode.nvim",
     build = ":TSUpdate html",
     dependencies = {

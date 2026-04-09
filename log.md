@@ -2,6 +2,19 @@
 
 ## 2026-03-31
 
+### Add nvim-puppeteer for template string auto-conversion
+
+Added `chrisgrieser/nvim-puppeteer` to `lua/plugins/user.lua`. This replaces
+`axelvc/template-string.nvim` from the old AstroNvim config, which was never
+carried over during the v3→v5 migration.
+
+The plugin auto-converts string literals to template literals (backticks) when
+`${` is typed inside them in JS/TS/JSX/TSX files, and reverses the conversion
+when the placeholder is removed. Also supports Python f-strings. Zero config
+required; depends on nvim-treesitter (already present).
+
+
+
 ### Simplify Neovim clipboard handling
 
 Replaced the custom SSH, tmux, and Wayland clipboard overrides in
