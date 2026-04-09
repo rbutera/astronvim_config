@@ -1,5 +1,32 @@
 # Log
 
+## 2026-04-09
+
+### Add VSCodevim compatibility layer and comparison docs
+
+**Problem:** CamelCaseMotion (`<leader>w/b/e`) was completely broken — AstroNvim
+mapped `<leader>w` to save, `<leader>e` to Neo-tree toggle, and `<leader>b` was
+a which-key prefix for buffer ops. All three CamelCaseMotion keys were shadowed.
+
+**Changes to `lua/polish.lua`:**
+- Moved buffer ops from `<leader>b*` → `<leader>B*` (capital B)
+- Moved ToggleTerm from `<leader>t*` → `<leader>T*` (capital T)
+- Removed redundant AstroNvim mappings: `<leader>w` (save, use `<C-s>`),
+  `<leader>e` (Neo-tree, use `<leader>kh`), `<leader>h` (home screen),
+  `<leader>Q` (exit, use `:qa`), `<leader>R` (rename, use `<leader>rf`)
+- Re-established CamelCaseMotion on `<leader>w/b/e` (all modes + text objects)
+- Added VSCodevim compat bindings: `<leader>h`/`H` (line nav), `]b`/`[b`
+  (buffer cycling), `gl` (hover), `<leader>Q` (code action), `<leader>p`
+  (peek definition), `<leader>t*` (tab ops), `<leader>\`/`|` (splits),
+  `<leader><leader>/` (clear search), visual `*`/`#` (star search)
+- Set `timeoutlen=200` for snappier which-key resolution
+
+**Created `docs/VSCODEVIM_NEOVIM_COMPARISON.md`:**
+- Full comparison of emulated extensions vs Neovim plugin equivalents
+- Feature gaps in both directions
+- Keybinding differences grouped by category
+- Remaining gotchas (fold keys, sneak vs leap, relocated groups)
+
 ## 2026-03-31
 
 ### Add nvim-puppeteer for template string auto-conversion
