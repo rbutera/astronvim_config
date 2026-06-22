@@ -7,9 +7,30 @@ if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Use the system clipboard for normal yank/delete/put operations and let
--- Neovim pick the appropriate provider for the current environment.
-vim.opt.clipboard = "unnamedplus"
+-- Clipboard: context-aware.
+-- Inside tmux (including over SSH): use osc52copy which writes OSC52 directly
+-- to the tmux client_tty, so the outer terminal receives it regardless of SSH.
+-- Locally (no tmux): let Neovim pick the native provider (pbcopy on macOS,
+-- wl-copy on Wayland, xclip on X11).
+if vim.env.TMUX and vim.env.TMUX ~= "" then
+  local osc52copy = vim.fn.expand "~/bin/osc52copy"
+  if vim.fn.executable(osc52copy) == 1 then
+    vim.g.clipboard = {
+      name = "osc52copy",
+      copy = {
+        ["+"] = { osc52copy },
+        ["*"] = { osc52copy },
+      },
+      paste = {
+        ["+"] = { "tmux", "save-buffer", "-" },
+        ["*"] = { "tmux", "save-buffer", "-" },
+      },
+      cache_enabled = 0,
+    }
+  end
+else
+  vim.opt.clipboard = "unnamedplus"
+end
 
 -- validate that lazy is available
 if not pcall(require, "lazy") then
